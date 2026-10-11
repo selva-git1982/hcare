@@ -5,10 +5,11 @@ title: "H-CARE OCMS: Healthcare Compliance-Aware Reliability Evaluation Research
 authors:
   - family-names: "Ramamoorthy"
     given-names: "Selvamurugan"
-version: "1.0.0"
+version: "1.0.1"
+doi: 10.5281/zenodo.23302442
 date-released: "2026-10-11"
 repository-code: "https://github.com/selva-git1982/hcare"
-url: "https://github.com/selva-git1982/hcare/releases/tag/v1.0.0"
+url: "https://github.com/selva-git1982/hcare/releases/tag/v1.0.1"
 abstract: >-
   H-CARE OCMS is a research prototype for five-dimensional evaluation of
   healthcare and life-sciences data platforms. It includes weighted scoring,

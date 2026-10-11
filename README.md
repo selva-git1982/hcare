@@ -1,4 +1,4 @@
-# H-CARE OCMS
+# H-CARE: Healthcare Compliance-Aware Reliability Evaluation
 
 **Operational Compliance Monitoring System** — an open-source research prototype implementing the H-CARE assessment methodology described in *H-CARE: A Compliance-Aware Evaluation Framework for Healthcare Data Platforms* by Selvamurugan Ramamoorthy.
 

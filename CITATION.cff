@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use H-CARE OCMS in your research, please cite this software."
+type: software
+title: "H-CARE OCMS: Healthcare Compliance-Aware Reliability Evaluation Research Prototype"
+authors:
+  - family-names: "Ramamoorthy"
+    given-names: "Selvamurugan"
+version: "1.0.0"
+date-released: "2026-10-11"
+repository-code: "https://github.com/selva-git1982/hcare"
+url: "https://github.com/selva-git1982/hcare/releases/tag/v1.0.0"
+abstract: >-
+  H-CARE OCMS is a research prototype for five-dimensional evaluation of
+  healthcare and life-sciences data platforms. It includes weighted scoring,
+  evidence-confidence adjustments, mandatory critical-control gates,
+  synthetic evidence import, assessment history, and PDF reporting.
+keywords:
+  - healthcare data platforms
+  - compliance-aware reliability
+  - research software
+  - synthetic assessment

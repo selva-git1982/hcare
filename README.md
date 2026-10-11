@@ -1,5 +1,5 @@
 # H-CARE OCMS
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23302442.svg)](https://doi.org/10.5281/zenodo.23302442)
 **Operational Compliance Monitoring System** — an open-source research prototype implementing the H-CARE assessment methodology described in *H-CARE: A Compliance-Aware Evaluation Framework for Healthcare Data Platforms* by Selvamurugan Ramamoorthy.
 
 ## Features

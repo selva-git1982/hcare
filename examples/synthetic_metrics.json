@@ -1,0 +1,65 @@
+{
+  "dataset_type": "synthetic",
+  "dimensions": {
+    "Performance & Scalability": {
+      "metrics": [
+        {
+          "name": "synthetic indicator",
+          "value": 90,
+          "target": 100,
+          "direction": "higher",
+          "weight": 1
+        }
+      ],
+      "evidence_reference": "SYNTHETIC-D1"
+    },
+    "Availability & Resilience": {
+      "metrics": [
+        {
+          "name": "synthetic indicator",
+          "value": 100,
+          "target": 100,
+          "direction": "higher",
+          "weight": 1
+        }
+      ],
+      "evidence_reference": "SYNTHETIC-D2"
+    },
+    "Security & Compliance": {
+      "metrics": [
+        {
+          "name": "synthetic indicator",
+          "value": 90,
+          "target": 100,
+          "direction": "higher",
+          "weight": 1
+        }
+      ],
+      "evidence_reference": "SYNTHETIC-D3"
+    },
+    "Data Integrity & Quality": {
+      "metrics": [
+        {
+          "name": "synthetic indicator",
+          "value": 90,
+          "target": 100,
+          "direction": "higher",
+          "weight": 1
+        }
+      ],
+      "evidence_reference": "SYNTHETIC-D4"
+    },
+    "Governance & Auditability": {
+      "metrics": [
+        {
+          "name": "synthetic indicator",
+          "value": 100,
+          "target": 100,
+          "direction": "higher",
+          "weight": 1
+        }
+      ],
+      "evidence_reference": "SYNTHETIC-D5"
+    }
+  }
+}

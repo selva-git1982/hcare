@@ -3,6 +3,9 @@ from datetime import datetime, timezone
 import pandas as pd
 import streamlit as st
 from hcare.scoring import DIMENSIONS, PROFILES, assess, weighted_metrics
+from hcare.collector import load_evidence
+from hcare.storage import save_assessment, list_assessments
+from hcare.reporting import pdf_report
 
 st.set_page_config(page_title="H-CARE OCMS", page_icon="🛡️", layout="wide")
 st.title("H-CARE | Operational Compliance Monitoring System")
@@ -21,6 +24,17 @@ with st.sidebar:
             st.stop()
         weights = [w / sum(raw) for w in raw]
         st.caption("Custom weights are normalized to sum to 1.")
+
+st.subheader("0. Import synthetic monitoring evidence")
+imported = None
+uploaded = st.file_uploader("Optional synthetic metrics JSON", type=["json"])
+if uploaded is not None:
+    try:
+        imported = load_evidence(uploaded.getvalue().decode("utf-8"))
+        st.success("Synthetic metrics validated. Dimension scores calculated from imported measurements.")
+    except (ValueError, KeyError, TypeError, UnicodeDecodeError) as exc:
+        st.error(f"Evidence import failed: {exc}")
+        st.stop()
 
 st.subheader("1. Dimension scoring and evidence confidence")
 st.info("Example values reproduce the illustrative matrix in the H-CARE paper. Replace them with verified assessment data.")
@@ -43,6 +57,9 @@ for i, name in enumerate(DIMENSIONS):
                 st.stop()
         conf = st.slider("Evidence confidence (retrievable support)", 0.0, 1.0, example_confidence[i], 0.01, key=f"conf{i}")
         st.text_input("Evidence reference / artifact ID (do not enter PHI)", key=f"evidence{i}")
+        if imported is not None:
+            score = imported[0][i]
+            st.caption(f"Imported calculated score: {score:.3f} (overrides manual score)")
         scores.append(score)
         confidence.append(conf)
 
@@ -72,6 +89,17 @@ for name, w in PROFILES.items():
     sensitivity.append({"Profile": name, "Base H": r["base_index"], "Evidence-adjusted H_E": r["evidence_adjusted_index"]})
 st.dataframe(pd.DataFrame(sensitivity), hide_index=True, use_container_width=True)
 
-report = {"assessment": assessment_name, "generated_at_utc": datetime.now(timezone.utc).isoformat(), "profile": profile if not custom else "Custom", "result": result, "evidence_references": {DIMENSIONS[i]: st.session_state.get(f"evidence{i}", "") for i in range(5)}, "sensitivity": sensitivity, "disclaimer": "Research assessment prototype, not legal or regulatory certification. Inputs are assessor-provided, not independently verified."}
+report = {"assessment": assessment_name, "generated_at_utc": datetime.now(timezone.utc).isoformat(), "profile": profile if not custom else "Custom", "result": result, "evidence_references": {DIMENSIONS[i]: (imported[1][DIMENSIONS[i]] if imported is not None else st.session_state.get(f"evidence{i}", "")) for i in range(5)}, "sensitivity": sensitivity, "disclaimer": "Research assessment prototype, not legal or regulatory certification. Inputs are assessor-provided, not independently verified."}
 st.download_button("Download assessment JSON", json.dumps(report, indent=2), file_name="hcare_assessment.json", mime="application/json")
 st.download_button("Download dimension scores CSV", pd.DataFrame({"dimension": DIMENSIONS, "score": scores, "confidence": confidence, "weight": weights}).to_csv(index=False), file_name="hcare_dimensions.csv", mime="text/csv")
+
+st.subheader("5. Save and export")
+if st.button("Save assessment to local history"):
+    save_assessment(report)
+    st.success("Saved to local SQLite assessment history")
+st.download_button("Download assessment PDF", pdf_report(report), file_name="hcare_report.pdf", mime="application/pdf")
+history = list_assessments()
+if history:
+    st.subheader("6. Assessment history")
+    st.dataframe(pd.DataFrame(history), hide_index=True, use_container_width=True)
+    st.line_chart(pd.DataFrame(list(reversed(history))).set_index("created_at")[["base", "adjusted"]])
